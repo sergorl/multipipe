@@ -140,7 +140,7 @@ int main()
     std::string str;
     std::getline(std::cin, str);
 
-    cout << "\nStr: " << str;
+//    cout << "\nStr: " << str;
 //    string str = "who | sort | uniq -c | sort -nk1";
 //    string str = "who | wc -l";
 //    string str = "ls -a -f";
