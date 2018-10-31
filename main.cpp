@@ -105,7 +105,8 @@ void multi(list<list<string>> coms) {
                 int fd = open("/home/box/result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
 //                int fd = open("./result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
                 dup2(fd, STDOUT_FILENO);
-                close(fd);
+//                close(STDOUT_FILENO);
+//                close(fd);
             }
 
             for(int i = 0; i < 2 * num_pipes; i++)
