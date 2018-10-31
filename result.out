@@ -1,0 +1,11 @@
+.
+..
+.git
+.gitignore
+main.cpp
+Makefile
+multipipe.pro
+multipipe.pro.user
+README.md
+result.out
+shell
