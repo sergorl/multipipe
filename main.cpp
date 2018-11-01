@@ -15,7 +15,7 @@
 
 using namespace std;
 
-FILE* pFile = fopen("./result.out", "w");
+FILE* pFile = fopen("/home/box/result.out", "w");
 
 void print_res(list<string>& strings) {
     for(auto it=strings.cbegin(); it!=strings.cend(); ++it) {
