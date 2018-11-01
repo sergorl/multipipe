@@ -80,6 +80,8 @@ void multi(list<list<string>> coms) {
        if( pipe(pipefds + i*2) < 0 )
             cout << "Error:" << strerror(errno) << "\n";
 
+    int status;
+    pid_t w;
     int commandc = 0;
     while( !coms.empty() ){
 
@@ -116,17 +118,20 @@ void multi(list<list<string>> coms) {
                 cout << "Error:" << strerror(errno) << "\n";
 
 
-        } else if( pid < 0 ){
+        } else if ( pid > 0 ){
+//            w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
+        } else {
             cout << "Error:" << strerror(errno) << "\n";
         }
-
-//        wait(NULL);
 
         ++commandc;
     }    
 
     for(int i = 0; i < 2 * num_pipes; i++)
         close( pipefds[i] );
+
+    for(int i = 0; i < num_pipes + 1; i++)
+           wait(&status);
 }
 
 
@@ -141,8 +146,6 @@ int main()
     if (str.length()>0) {
         auto com = coms(str);
         multi(com);
-
-        sleep(3);
     } else {
         FILE* pFile = fopen("./result.out", "w");
         fclose(pFile);
