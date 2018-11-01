@@ -151,6 +151,8 @@ int main()
         fclose(pFile);
     }
 
+    sleep(5);
+
     return 0;
 }
 
