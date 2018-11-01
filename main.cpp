@@ -103,8 +103,8 @@ void multi(list<list<string>> coms) {
                 if( dup2(pipefds[commandc*2+1], 1) < 0 )
                     cout << "Error2:" << strerror(errno) << "\n";
             } else {
-//                int fd = open("/home/box/result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
-                int fd = open("./result.out", O_RDWR | O_CREAT, 0666);
+                FILE* f = fopen("./result.out", "a");
+                int fd = fileno(f);
                 dup2(fd, STDOUT_FILENO);
                 close(fd);
             }
@@ -154,9 +154,11 @@ int main()
         auto com = coms(str);
         multi(com);
     } else {
-        int fd = open("./result.out", O_RDWR | O_CREAT, 0666);
-        dup2(fd, STDOUT_FILENO);
-        close(fd);
+//        int fd = open("./result.out", O_RDWR | O_CREAT, 0666);
+//        FILE* f = fopen("./result.out", "a");
+//        int fd = fileno(f);
+//        dup2(fd, STDOUT_FILENO);
+//        close(fd);
     }
 
     return 0;
