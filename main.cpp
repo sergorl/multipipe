@@ -15,8 +15,6 @@
 
 using namespace std;
 
-FILE* pFile = fopen("/home/box/result.out", "w");
-
 void print_res(list<string>& strings) {
     for(auto it=strings.cbegin(); it!=strings.cend(); ++it) {
         cout << *it << "|\n";
@@ -105,6 +103,7 @@ void multi(list<list<string>> coms) {
                 if( dup2(pipefds[commandc*2+1], 1) < 0 )
                     cout << "Error2:" << strerror(errno) << "\n";
             } else {
+                FILE* pFile = fopen("/home/box/result.out", "w");
                 int fd = fileno(pFile);
                 dup2(fd, STDOUT_FILENO);
                 close(fd);
@@ -140,9 +139,10 @@ int main()
     if (str.length()>0) {
         auto com = coms(str);
         multi(com);
+    } else {
+        FILE* pFile = fopen("/home/box/result.out", "w");
+        fclose(pFile);
     }
-
-    fclose(pFile);
 
     return 0;
 }
