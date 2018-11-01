@@ -103,7 +103,7 @@ void multi(list<list<string>> coms) {
                 if( dup2(pipefds[commandc*2+1], 1) < 0 )
                     cout << "Error2:" << strerror(errno) << "\n";
             } else {
-                FILE* pFile = fopen("/home/box/result.out", "w");
+                FILE* pFile = fopen("./result.out", "w");
                 int fd = fileno(pFile);
                 dup2(fd, STDOUT_FILENO);
                 close(fd);
@@ -120,7 +120,7 @@ void multi(list<list<string>> coms) {
             cout << "Error:" << strerror(errno) << "\n";
         }
 
-        wait(NULL);
+//        wait(NULL);
 
         ++commandc;
     }    
@@ -142,7 +142,7 @@ int main()
         auto com = coms(str);
         multi(com);
     } else {
-        FILE* pFile = fopen("/home/box/result.out", "w");
+        FILE* pFile = fopen("./result.out", "w");
         fclose(pFile);
     }
 
