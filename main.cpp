@@ -15,6 +15,8 @@
 
 using namespace std;
 
+FILE* pFile = fopen("./result.out", "w");
+
 void print_res(list<string>& strings) {
     for(auto it=strings.cbegin(); it!=strings.cend(); ++it) {
         cout << *it << "|\n";
@@ -103,8 +105,7 @@ void multi(list<list<string>> coms) {
                 if( dup2(pipefds[commandc*2+1], 1) < 0 )
                     cout << "Error2:" << strerror(errno) << "\n";
             } else {
-                FILE* f = fopen("./result.out", "a");
-                int fd = fileno(f);
+                int fd = fileno(pFile);
                 dup2(fd, STDOUT_FILENO);
                 close(fd);
             }
@@ -127,14 +128,6 @@ void multi(list<list<string>> coms) {
         close( pipefds[i] );
 }
 
-void to_stdin(string str) {
-    stringstream msg;
-    msg << str;
-    auto s = msg.str();
-    write(STDIN_FILENO, s.c_str(), s.size());
-    close(STDIN_FILENO);
-}
-
 
 int main()
 {
@@ -144,22 +137,12 @@ int main()
     while ((c = getchar()) != '\n' && c != '\r' && c != EOF)
         str += c;
 
-//    cout << "Str: " << str;
-
-//    string str = "who | sort | uniq -c | sort -nk1";
-//    string str = "who | wc -l";
-//    string str = "ls -a -f";
-
     if (str.length()>0) {
         auto com = coms(str);
         multi(com);
-    } else {
-//        int fd = open("./result.out", O_RDWR | O_CREAT, 0666);
-//        FILE* f = fopen("./result.out", "a");
-//        int fd = fileno(f);
-//        dup2(fd, STDOUT_FILENO);
-//        close(fd);
     }
+
+    fclose(pFile);
 
     return 0;
 }
