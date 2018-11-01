@@ -141,6 +141,8 @@ int main()
     if (str.length()>0) {
         auto com = coms(str);
         multi(com);
+
+        sleep(3);
     } else {
         FILE* pFile = fopen("./result.out", "w");
         fclose(pFile);
