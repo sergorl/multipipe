@@ -11,6 +11,7 @@
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <cstdio>
 
 using namespace std;
 
@@ -102,11 +103,10 @@ void multi(list<list<string>> coms) {
                 if( dup2(pipefds[commandc*2+1], 1) < 0 )
                     cout << "Error2:" << strerror(errno) << "\n";
             } else {
-                int fd = open("/home/box/result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
-//                int fd = open("./result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
+//                int fd = open("/home/box/result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
+                int fd = open("./result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
                 dup2(fd, STDOUT_FILENO);
-//                close(STDOUT_FILENO);
-//                close(fd);
+                close(fd);
             }
 
             for(int i = 0; i < 2 * num_pipes; i++)
@@ -139,15 +139,21 @@ void to_stdin(string str) {
 int main()
 {
     std::string str;
-    std::getline(std::cin, str);
 
-//    cout << "\nStr: " << str;
+    int c;
+    while ((c = getchar()) != '\n' && c != '\r' && c != EOF)
+        str += c;
+
+//    cout << "Str: " << str;
+
 //    string str = "who | sort | uniq -c | sort -nk1";
 //    string str = "who | wc -l";
 //    string str = "ls -a -f";
 
-    auto com = coms(str);
-    multi(com);
+    if (str.length()>0) {
+        auto com = coms(str);
+        multi(com);
+    }
 
     return 0;
 }
