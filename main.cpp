@@ -95,6 +95,7 @@ void multi(list<list<string>> coms) {
             /* child gets input from the previous command,
                 if it's not the first command */
             if(commandc != 0) {
+                close(0);
                 if( dup2(pipefds[(commandc-1)*2], 0) < 0 )
                     cout << "Error1:" << strerror(errno) << "\n";
             }
@@ -102,6 +103,7 @@ void multi(list<list<string>> coms) {
             /* child outputs to next command, if it's not
                 the last command */
             if(commandc != num_commands-1) {
+                close(1);
                 if( dup2(pipefds[commandc*2+1], 1) < 0 )
                     cout << "Error2:" << strerror(errno) << "\n";
             } else {
@@ -116,7 +118,6 @@ void multi(list<list<string>> coms) {
 
             if (execvp(argv[0], argv) < 0)
                 cout << "Error:" << strerror(errno) << "\n";
-
 
         } else if ( pid > 0 ){
 //            w = waitpid(pid, &status, WUNTRACED | WCONTINUED);
@@ -150,8 +151,6 @@ int main()
         FILE* pFile = fopen("./result.out", "w");
         fclose(pFile);
     }
-
-    sleep(5);
 
     return 0;
 }
