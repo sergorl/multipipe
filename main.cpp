@@ -153,6 +153,10 @@ int main()
     if (str.length()>0) {
         auto com = coms(str);
         multi(com);
+    } else {
+        int fd = open("./result.out", O_RDWR | O_CREAT | O_TRUNC, 0666);
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
     }
 
     return 0;
